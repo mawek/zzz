@@ -20,9 +20,13 @@ repositories {
 }
 
 dependencies {
+
+    compile('org.springframework.boot:spring-boot')
+
     compile('org.apache.httpcomponents:httpclient')
     compile('commons-logging:commons-logging')
     compile('commons-io:commons-io:2.4')
+    compile('org.apache.commons:commons-lang3:3.5')
 
     compile('com.fasterxml.jackson.core:jackson-annotations')
     compile('com.fasterxml.jackson.core:jackson-core')
@@ -31,6 +35,8 @@ dependencies {
 
     testCompile('junit:junit')
     testCompile('org.codehaus.groovy:groovy-all')
+    testCompile('net.javacrumbs.json-unit:json-unit:1.21.0')
+    testCompile('net.javacrumbs.json-unit:json-unit-core:1.21.0')
 }
 
 test {
