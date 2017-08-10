@@ -1,0 +1,32 @@
+plugins {
+
+    // manages spring and some associated libraries versions (aka maven dependency management)
+    id 'org.springframework.boot' version '1.5.6.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+group 'com.mawek'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+mainClassName = "com.mawek.zzz.MainApp"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile('junit:junit')
+    testCompile('org.codehaus.groovy:groovy-all')
+}
+
+test {
+    testLogging {
+        exceptionFormat 'full'
+        events "passed", "skipped", "failed"
+    }
+}
