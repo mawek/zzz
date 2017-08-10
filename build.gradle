@@ -20,6 +20,15 @@ repositories {
 }
 
 dependencies {
+    compile('org.apache.httpcomponents:httpclient')
+    compile('commons-logging:commons-logging')
+    compile('commons-io:commons-io:2.4')
+
+    compile('com.fasterxml.jackson.core:jackson-annotations')
+    compile('com.fasterxml.jackson.core:jackson-core')
+    compile('com.fasterxml.jackson.core:jackson-databind')
+    compile('org.slf4j:slf4j-api')
+
     testCompile('junit:junit')
     testCompile('org.codehaus.groovy:groovy-all')
 }
