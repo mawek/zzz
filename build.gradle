@@ -22,6 +22,7 @@ repositories {
 dependencies {
 
     compile('org.springframework.boot:spring-boot')
+    compile("org.springframework.boot:spring-boot-starter-actuator")
 
     compile('org.apache.httpcomponents:httpclient')
     compile('commons-logging:commons-logging')

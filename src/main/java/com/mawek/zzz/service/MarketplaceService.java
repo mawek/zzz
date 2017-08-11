@@ -10,15 +10,26 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.apache.commons.lang3.Validate.notNull;
 
+@Component
 public class MarketplaceService {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
+    @Autowired
+    public MarketplaceService(ObjectMapper objectMapper) {
+        notNull(objectMapper, "objectMapper can't be null");
+
+        this.objectMapper = objectMapper;
+    }
 
     public List<Loan> getLoans() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -34,7 +45,7 @@ public class MarketplaceService {
                 if (status >= 200 && status < 300) {
                     HttpEntity entity = response.getEntity();
 
-                    return entity != null ? OBJECT_MAPPER.readValue(EntityUtils.toString(entity), new TypeReference<List<Loan>>() {
+                    return entity != null ? objectMapper.readValue(EntityUtils.toString(entity), new TypeReference<List<Loan>>() {
                     }) : null;
                 } else {
                     throw new ClientProtocolException("Unexpected response status: " + status);
