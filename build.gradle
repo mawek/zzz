@@ -21,8 +21,12 @@ repositories {
 
 dependencies {
 
-    compile('org.springframework.boot:spring-boot')
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+//    compile('org.springframework.boot:spring-boot')
+
+    compile("org.springframework:spring-web")
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-test")
+    compile("com.google.guava:guava:11.0.2")
 
     compile('org.apache.httpcomponents:httpclient')
     compile('commons-logging:commons-logging')
@@ -34,6 +38,7 @@ dependencies {
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('org.slf4j:slf4j-api')
 
+    testCompile('org.mockito:mockito-core')
     testCompile('junit:junit')
     testCompile('org.codehaus.groovy:groovy-all')
     testCompile('net.javacrumbs.json-unit:json-unit:1.21.0')

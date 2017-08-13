@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.mawek.zzz.rest.FilterOperation;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.math.BigDecimal;
@@ -18,7 +19,6 @@ import static org.apache.commons.lang3.Validate.notNull;
  * <p>
  * Ignore 'photos' field for model simplicity.
  */
-
 @JsonDeserialize(builder = Loan.LoanBuilder.class)
 public final class Loan {
 
@@ -218,6 +218,8 @@ public final class Loan {
                 .toString();
     }
 
+    // TODO might be splitted to own classes (maybe create separate package for loan? )
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class LoanBuilder {
@@ -384,6 +386,39 @@ public final class Loan {
             loan.topped = topped;
 
             return loan;
+        }
+    }
+
+    public enum SortableField {
+        DATE_PUBLISHED("datePublished");
+
+        private final String fieldName;
+
+        SortableField(String fieldName) {
+            this.fieldName = fieldName;
+        }
+
+        public String getAscOrder() {
+            return fieldName;
+        }
+
+        public String getDescOrder() {
+            return "-" + fieldName;
+        }
+    }
+
+    public enum FilterableField {
+        DATE_PUBLISHED("datePublished");
+
+        private final String fieldName;
+
+        FilterableField(String fieldName) {
+            this.fieldName = fieldName;
+        }
+
+        public String getFieldFilter(FilterOperation operation) {
+            notNull(operation, "filter operation can't be null");
+            return String.join("__", fieldName, operation.toString().toLowerCase());
         }
     }
 }

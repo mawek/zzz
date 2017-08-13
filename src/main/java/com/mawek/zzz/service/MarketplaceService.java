@@ -1,63 +1,66 @@
 package com.mawek.zzz.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.mawek.zzz.model.Loan;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import com.mawek.zzz.model.Loan.FilterableField;
+import com.mawek.zzz.model.Loan.SortableField;
+import com.mawek.zzz.rest.FilterOperation;
+import com.mawek.zzz.rest.ZRequestBuilder;
+import com.mawek.zzz.rest.ZResponse;
+import com.mawek.zzz.rest.ZRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
-import static org.apache.commons.io.IOUtils.closeQuietly;
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.Validate.notNull;
+
+/**
+ * Service for handling Zonky marketplace.
+ */
 
 @Component
 public class MarketplaceService {
 
-    private final ObjectMapper objectMapper;
+    private final ZRestTemplate zrestTemplate;
 
     @Autowired
-    public MarketplaceService(ObjectMapper objectMapper) {
-        notNull(objectMapper, "objectMapper can't be null");
+    public MarketplaceService(ZRestTemplate zrestTemplate) {
+        notNull(zrestTemplate, "zrestTemplate can't be null");
 
-        this.objectMapper = objectMapper;
+        this.zrestTemplate = zrestTemplate;
     }
 
-    public List<Loan> getLoans() {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
-            HttpGet httpget = new HttpGet("https://api.zonky.cz/loans/marketplace");
-            httpget.addHeader("X-Order", "-datePublished");
 
-            System.out.println("Executing request " + httpget.getRequestLine());
+    /**
+     * Return all loans that datePublished field is newer than provided parameter.
+     * Used for fetching 'new' loans in marketplace.
+     *
+     * @param fromDatePublished lower boundary of datePublished field of returned loans
+     * @return list of loans
+     */
+    public List<Loan> getLoans(ZonedDateTime fromDatePublished) {
 
-            // Create a custom response handler
-            ResponseHandler<List<Loan>> responseHandler = response -> {
-                int status = response.getStatusLine().getStatusCode();
-                if (status >= 200 && status < 300) {
-                    HttpEntity entity = response.getEntity();
 
-                    return entity != null ? objectMapper.readValue(EntityUtils.toString(entity), new TypeReference<List<Loan>>() {
-                    }) : null;
-                } else {
-                    throw new ClientProtocolException("Unexpected response status: " + status);
-                }
-            };
+        // TODO hostname configurable
+        final ZRequestBuilder requestBuilder = zrestTemplate.createGet("https://api.zonky.cz/loans/marketplace")
+                .addSortField(SortableField.DATE_PUBLISHED.getDescOrder())
+                .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), "2017-07-20T23:59:59.000+02:00")
+                .setPageIndex(0);
 
-            return httpclient.execute(httpget, responseHandler);
+        final List<Loan> loans = Lists.newLinkedList();
+        for (int i = 0; ; i++) {
+            final ZResponse<Loan[]> response = requestBuilder.execute(Loan[].class);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            closeQuietly(httpclient);
+            loans.addAll(asList(response.getEntity()));
+
+            if (loans.size() < response.getPagingTotal()) {
+                requestBuilder.setPageIndex(i);
+            } else {
+                return loans;
+            }
         }
     }
 }
