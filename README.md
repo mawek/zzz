@@ -3,7 +3,7 @@
 Application for periodic checking of new loans.
 
 ## Running the app via gradle (development mode)
-* ```./gradlew run``` - every 5 seconds checks for new loans and print them to the console by default (or to the txt file)
+* ```./gradlew run``` - every 5 minutes checks for new loans and print them to the console by default (or to the txt file)
 
 ## Running tests
 * ```./gradlew test```
