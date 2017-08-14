@@ -1,4 +1,4 @@
-package com.mawek.zzz.service;
+package com.mawek.zzz.service.processor;
 
 import com.mawek.zzz.model.Loan;
 

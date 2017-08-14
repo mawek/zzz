@@ -2,7 +2,7 @@ package com.mawek.zzz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mawek.zzz.model.Loan;
-import com.mawek.zzz.service.LoanProcessor;
+import com.mawek.zzz.service.processor.LoanProcessor;
 import com.mawek.zzz.service.MarketplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
