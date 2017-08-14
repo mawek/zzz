@@ -6,7 +6,6 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.collect.Lists.newLinkedList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -131,24 +130,5 @@ public final class ZRequestBuilder {
         filters.forEach(filter -> requestCopy.addParameter(filter.getName(), filter.getValue()));
 
         return zRestTemplate.execute(requestCopy.build(), clz);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ZRequestBuilder that = (ZRequestBuilder) o;
-        return pageIndex == that.pageIndex &&
-                pageSize == that.pageSize &&
-                Objects.equals(zRestTemplate, that.zRestTemplate) &&
-                Objects.equals(request.getMethod(), that.request.getMethod()) &&
-                Objects.equals(request.getURI(), that.request.getURI()) &&
-                Objects.equals(sortFields, that.sortFields) &&
-                Objects.equals(filters, that.filters);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(zRestTemplate, request, sortFields, filters, pageIndex, pageSize);
     }
 }
