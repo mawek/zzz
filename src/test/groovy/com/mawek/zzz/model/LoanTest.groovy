@@ -13,6 +13,48 @@ class LoanTest {
         def loanJson = JsonFileHelper.getJsonAsString("json/loan.json")
         Loan loan = OBJECT_MAPPER.readValue(loanJson, Loan.class)
 
+        checkRequiredFields(loan)
+        checkOptionalFields(loan)
+    }
+
+    @Test(expected = NullPointerException.class)
+    void testLoanBuilderMissingRequiredFields() {
+        new Loan.LoanBuilder(15).withName('some name').build()
+    }
+
+    @Test
+    void testLoanBuilder() {
+        def loanBuilder = new Loan.LoanBuilder(113913)
+                .withName('Vyplacení manželky z bytu')
+                .withPurpose('7')
+                .withNickName('Martynez')
+                .withTermInMonths(84)
+                .withInterestRate(new BigDecimal("0.059900"))
+                .withRating('AAA')
+                .withAmount(new BigDecimal("235000.00"))
+                .withRemainingInvestment(new BigDecimal("217000.00"))
+                .withInvestmentRate(new BigDecimal("0.07659574468085106"))
+                .withCovered(false)
+                .withDatePublished('2017-08-09T17:51:58.977+02:00')
+                .withPublished(true)
+                .withDeadline('2017-08-11T17:42:55.073+02:00')
+                .withInvestmentsCount(33)
+                .withQuestionsCount(3)
+                .withRegion('6')
+                .withMainIncomeType('EMPLOYMENT')
+
+
+        checkRequiredFields(loanBuilder.build())
+
+        loanBuilder.withUrl('https://app.zonky.cz/loan/113913')
+                .withStory('Po jednadvaceti letech jsme došli do stádia rozvodu a protože je byt ve kterém jsme společně bydleli v příjemné lokalitě a dostatečně prostorný, chtěl bych vyplatit manželku a zůstat zde společně se synem ve střídavé péči. \n' +
+                'Děkuji Všem Investorům, kteří tímto způsobem pomáhají a zároveň investují...')
+                .withTopped(false)
+
+        checkOptionalFields(loanBuilder.build())
+    }
+
+    private checkRequiredFields(Loan loan) {
         assert loan.id == 113913
         assert loan.name == "Vyplacení manželky z bytu"
         assert loan.purpose == "7"
@@ -31,11 +73,12 @@ class LoanTest {
         assert loan.questionsCount == 3
         assert loan.region == "6"
         assert loan.mainIncomeType == "EMPLOYMENT"
+    }
 
-        assert loan.url == "https://app.zonky.cz/loan/113913"
-        assert loan.story == "Po jednadvaceti letech jsme došli do stádia rozvodu a protože je byt ve kterém jsme společně bydleli v příjemné lokalitě a dostatečně prostorný, chtěl bych vyplatit manželku a zůstat zde společně se synem ve střídavé péči. \nDěkuji Všem Investorům, kteří tímto způsobem pomáhají a zároveň investují..."
+    private checkOptionalFields(Loan loan) {
+        assert loan.url == 'https://app.zonky.cz/loan/113913'
+        assert loan.story == 'Po jednadvaceti letech jsme došli do stádia rozvodu a protože je byt ve kterém jsme společně bydleli v příjemné lokalitě a dostatečně prostorný, chtěl bych vyplatit manželku a zůstat zde společně se synem ve střídavé péči. \nDěkuji Všem Investorům, kteří tímto způsobem pomáhají a zároveň investují...'
         assert !loan.topped
-
     }
 
 }

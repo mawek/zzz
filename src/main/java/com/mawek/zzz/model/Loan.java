@@ -22,35 +22,55 @@ import static org.apache.commons.lang3.Validate.notNull;
 @JsonDeserialize(builder = Loan.LoanBuilder.class)
 public final class Loan {
 
-    // fields are not final, but the Loan class itself is effective immutable - LoanBuilder is guarding invariants
-
     /* Required fields */
-    private long id;
-    private String name;
-    private String purpose;
-    private String nickName;
-    private int termInMonths;
-    private BigDecimal interestRate;
-    private String rating;
-    private BigDecimal amount;
-    private BigDecimal remainingInvestment;
-    private BigDecimal investmentRate;
-    private boolean covered;
-    private String datePublished; // TODO date
-    private boolean published;
-    private String deadline; // TODO date
-    private int investmentsCount;
-    private int questionsCount;
-    private String region;
-    private String mainIncomeType;
+    private final long id;
+    private final String name;
+    private final String purpose;
+    private final String nickName;
+    private final int termInMonths;
+    private final BigDecimal interestRate;
+    private final String rating;
+    private final BigDecimal amount;
+    private final BigDecimal remainingInvestment;
+    private final BigDecimal investmentRate;
+    private final boolean covered;
+    private final String datePublished; // TODO date
+    private final boolean published;
+    private final String deadline; // TODO date
+    private final int investmentsCount;
+    private final int questionsCount;
+    private final String region;
+    private final String mainIncomeType;
 
     /* Optional fields */
-    private String url;
-    private String story;
-    private boolean topped;
+    private final String url;
+    private final String story;
+    private final boolean topped;
 
     // only LoanBuilder can create Loan
-    private Loan() {
+    private Loan(LoanBuilder builder) {
+        this.id = builder.id;
+        this.name = notEmpty(builder.name, "name can't be empty");
+        this.purpose = notEmpty(builder.purpose, "purpose can't be empty");
+        this.nickName = notEmpty(builder.nickName, "nickName can't be empty");
+        this.termInMonths = builder.termInMonths;
+        this.interestRate = notNull(builder.interestRate, "interestRate can't be null");
+        this.rating = notEmpty(builder.rating, "rating can't be empty");
+        this.amount = notNull(builder.amount, "amount can't be null");
+        this.remainingInvestment = notNull(builder.remainingInvestment, "remainingInvestment can't be null");
+        this.investmentRate = notNull(builder.investmentRate, "investmentRate can't be null");
+        this.covered = builder.covered;
+        this.datePublished = notEmpty(builder.datePublished, "datePublished can't be empty");
+        this.published = builder.published;
+        this.deadline = notEmpty(builder.deadline, "deadline can't be empty");
+        this.investmentsCount = builder.investmentsCount;
+        this.questionsCount = builder.questionsCount;
+        this.region = notEmpty(builder.region, "region can't be empty");
+        this.mainIncomeType = notEmpty(builder.mainIncomeType, "mainIncomeType can't be empty");
+
+        this.url = builder.url;
+        this.story = builder.story;
+        this.topped = builder.topped;
     }
 
     public long getId() {
@@ -360,32 +380,7 @@ public final class Loan {
         }
 
         public Loan build() {
-            Loan loan = new Loan();
-            loan.id = id;
-            loan.name = notEmpty(name, "name can't be empty");
-            loan.purpose = notEmpty(purpose, "purpose can't be empty");
-            loan.nickName = notEmpty(nickName, "nickName can't be empty");
-            loan.termInMonths = termInMonths;
-            loan.interestRate = notNull(interestRate, "interestRate can't be null");
-            loan.rating = notEmpty(rating, "rating can't be empty");
-            loan.amount = notNull(amount, "amount can't be null");
-            loan.remainingInvestment = notNull(remainingInvestment, "remainingInvestment can't be null");
-            loan.investmentRate = notNull(investmentRate, "investmentRate can't be null");
-            loan.covered = covered;
-            loan.datePublished = notEmpty(datePublished, "datePublished can't be empty");
-            loan.published = published;
-            loan.deadline = notEmpty(deadline, "deadline can't be empty");
-            loan.investmentsCount = investmentsCount;
-            loan.questionsCount = questionsCount;
-            loan.questionsCount = questionsCount;
-            loan.region = notEmpty(region, "region can't be empty");
-            loan.mainIncomeType = notEmpty(mainIncomeType, "mainIncomeType can't be empty");
-
-            loan.url = url;
-            loan.story = story;
-            loan.topped = topped;
-
-            return loan;
+            return new Loan(this);
         }
     }
 
