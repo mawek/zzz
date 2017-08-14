@@ -18,7 +18,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  * Synchronous rest helper for calling Zonky Rest API.
  */
 @Component
-public final class ZRestTemplate {
+public class ZRestTemplate {
 
     private final RestTemplate restTemplate;
     private final String zHostName;

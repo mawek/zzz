@@ -41,8 +41,6 @@ public final class ZRequestBuilder {
         this.request = request;
     }
 
-    // TODO test null
-
     /**
      * Add sorting capabilities for this request.
      * Can be called multiple times - each call adds another sort field on top of previously added sort fields.
