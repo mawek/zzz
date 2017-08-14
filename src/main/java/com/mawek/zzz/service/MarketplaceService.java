@@ -43,8 +43,6 @@ public class MarketplaceService {
      */
     public List<Loan> getLoans(ZonedDateTime fromDatePublished) {
 
-
-        // TODO hostname configurable
         final ZRequestBuilder requestBuilder = zrestTemplate.createGet("/loans/marketplace")
                 .addSortField(SortableField.DATE_PUBLISHED.getDescOrder())
                 .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), "2017-07-20T23:59:59.000+02:00")

@@ -10,7 +10,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  */
 public final class ZResponse<T> {
 
-    private static final String PAGE_TOTAL_HEADER = "X-Total";
+    static final String PAGE_TOTAL_HEADER = "X-Total";
 
     private final ResponseEntity<T> responseEntity;
     private final int pagingTotal;
