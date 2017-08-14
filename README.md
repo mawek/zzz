@@ -3,11 +3,11 @@
 Application for periodic checking of new loans.
 
 ## Running the app via gradle (development mode)
-* gradle run
+* ./gradlew run
 
 ## Running tests
-* gradle test
+* ./gradlew test
 
 ## Bundling the app
-* gradle build
+* ./gradlew build
 * java -jar build/libs/zzz-1.0-SNAPSHOT.jar
