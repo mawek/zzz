@@ -9,27 +9,11 @@ import org.apache.http.client.methods.HttpUriRequest;
 public class ZRestException extends ZRuntimeException {
 
     private final HttpUriRequest request;
-    private final Integer responseStatusCode;
 
     public ZRestException(HttpUriRequest request, String message, Throwable cause) {
         super(message, cause);
 
         this.request = request;
-        this.responseStatusCode = null;
-    }
-
-    public ZRestException(HttpUriRequest request, int responseStatusCode, String message) {
-        super(message);
-
-        this.request = request;
-        this.responseStatusCode = responseStatusCode;
-    }
-
-    /**
-     * Return returned http status code. Can be null (if response isn't available at all for example)
-     */
-    public Integer getResponseStatusCode() {
-        return responseStatusCode;
     }
 
     /**
@@ -41,18 +25,11 @@ public class ZRestException extends ZRuntimeException {
 
     @Override
     public String toString() {
-        ToStringBuilder builder = new ToStringBuilder(this)
+        return new ToStringBuilder(this)
                 .append("error message", getLocalizedMessage())
                 .append("request method", request.getMethod())
-                .append("request uri", request.getURI());
-
-        if (responseStatusCode != null) {
-            builder.append("response status", responseStatusCode);
-        }
-
-        builder.append("root cause", getCause().getLocalizedMessage());
-
-
-        return builder.build();
+                .append("request uri", request.getURI())
+                .append("root cause", super.toString())
+                .build();
     }
 }

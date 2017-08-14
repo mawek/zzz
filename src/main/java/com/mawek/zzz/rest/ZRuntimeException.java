@@ -5,10 +5,6 @@ package com.mawek.zzz.rest;
  */
 public class ZRuntimeException extends RuntimeException {
 
-    public ZRuntimeException(String message) {
-        super(message);
-    }
-
     public ZRuntimeException(String message, Throwable t) {
         super(message, t);
     }

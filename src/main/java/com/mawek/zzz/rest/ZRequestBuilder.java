@@ -9,12 +9,13 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newLinkedList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.http.client.methods.RequestBuilder.copy;
 
 /**
- * Builder for zonky requests - it wraps logic about setting proper header/query params
- * for available operations (filtering, sortgin, paging,...)
+ * Builder for Zonky requests - it wraps logic of setting proper headers/query params
+ * for available operations (filtering, sorting, paging,...)
  */
 public final class ZRequestBuilder {
 
@@ -24,9 +25,9 @@ public final class ZRequestBuilder {
 
     private final ZRestTemplate zRestTemplate;
 
-    private HttpUriRequest request;
-    private List<String> sortFields = newLinkedList();
-    private List<NameValuePair> filters = newLinkedList();
+    private final HttpUriRequest request;
+    private final List<String> sortFields = newLinkedList();
+    private final List<NameValuePair> filters = newLinkedList();
 
     private int pageIndex = 0;
     private int pageSize = 100;
@@ -43,7 +44,7 @@ public final class ZRequestBuilder {
     // TODO test null
 
     /**
-     * Requests sorting capabilities for this request.
+     * Add sorting capabilities for this request.
      * Can be called multiple times - each call adds another sort field on top of previously added sort fields.
      * <p>
      *
@@ -58,7 +59,7 @@ public final class ZRequestBuilder {
     }
 
     /**
-     * Requests filtering capabilities for this request. Name of filter field
+     * Add filtering capabilities for this request. Name of filter field
      * should be a result of {@link com.mawek.zzz.model.Loan.FilterableField#getFieldFilter(FilterOperation)}.
      * <p>
      *
@@ -78,35 +79,27 @@ public final class ZRequestBuilder {
         return this;
     }
 
-    public ZRequestBuilder setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
-        return this;
-    }
-
-    public ZRequestBuilder setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-        return this;
-    }
-
-
     /**
-     * Only positive numbers are accepted. Negative numbers are ignored.
-     *
-     * @param pageIndex - index of page
-     * @param pageSize  - size of page
-     * @return this
+     * Add page index (for pageable resources)
      */
-    public ZRequestBuilder withPaging(int pageIndex, int pageSize) {
-
-        // TODO separate class for paging so no (special)negative index is not necessary ?
+    public ZRequestBuilder setPageIndex(int pageIndex) {
+        isTrue(pageIndex >= 0, "pageIndex can't be negative number");
         this.pageIndex = pageIndex;
+        return this;
+    }
+
+    /**
+     * Add page size (for pageable resources)
+     */
+    public ZRequestBuilder setPageSize(int pageSize) {
+        isTrue(pageSize >= 0, "pageSize can't be negative number");
+
         this.pageSize = pageSize;
         return this;
     }
 
     /**
-     * Issues pre-configured request using {@link ZRestTemplate} and and return {@link ZResponse}
-     * with deserialized content of requested type.
+     * Trigers pre-configured request and return {@link ZResponse} with deserialized content of requested type.
      *
      * @param clz - type of response entity
      * @return response of rest api call

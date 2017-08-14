@@ -21,9 +21,10 @@ import static org.apache.commons.lang3.Validate.notNull;
 /**
  * Service for handling Zonky marketplace.
  */
-
 @Component
-public class MarketplaceService {
+public final class MarketplaceService {
+
+    private static final String MARKETPLACE_URI = "/loans/marketplace";
 
     private final ZRestTemplate zrestTemplate;
 
@@ -45,13 +46,13 @@ public class MarketplaceService {
     public List<Loan> getLoans(ZonedDateTime fromDatePublished) {
         notNull(fromDatePublished, "fromDatePublished can't be null");
 
-        final ZRequestBuilder requestBuilder = zrestTemplate.createGet("/loans/marketplace")
+        final ZRequestBuilder requestBuilder = zrestTemplate.createGet(MARKETPLACE_URI)
                 .addSortField(SortableField.DATE_PUBLISHED.getDescOrder())
                 .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), fromDatePublished.format(ISO_OFFSET_DATE_TIME))
                 .setPageIndex(0);
 
         final List<Loan> loans = Lists.newLinkedList();
-        for (int i = 0; ;) {
+        for (int i = 0; ; ) {
             final ZResponse<Loan[]> response = requestBuilder.execute(Loan[].class);
 
             loans.addAll(asList(response.getEntity()));

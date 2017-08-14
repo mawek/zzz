@@ -1,7 +1,7 @@
-package com.mawek.zzz.service;
+package com.mawek.zzz.service.processor;
 
 /**
- * Error thrown when procesing loans.
+ * Error thrown when processing loans.
  */
 public class LoanProcessorException extends RuntimeException {
 

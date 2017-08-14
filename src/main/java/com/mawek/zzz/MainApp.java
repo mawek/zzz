@@ -35,7 +35,7 @@ public class MainApp {
     }
 
     @Scheduled(fixedDelayString = "${scheduler.rate.ms}")
-    public void printLoans() {
+    public void processNewLoans() {
 
         final List<Loan> loans = marketplaceService.getLoans(fromDatePublished);
 
@@ -65,5 +65,4 @@ public class MainApp {
     static class SchedulingConfiguration {
 
     }
-
 }

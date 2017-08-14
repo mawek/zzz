@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 
 @Component
 @ConditionalOnProperty(value = "loan.processor", havingValue = "console")
-public class ConsoleLoggingLoanProcessor implements LoanProcessor {
+public final class ConsoleLoggingLoanProcessor implements LoanProcessor {
 
     @Override
     public void processLoans(List<Loan> loans) {

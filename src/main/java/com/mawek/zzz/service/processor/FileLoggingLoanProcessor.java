@@ -1,7 +1,6 @@
 package com.mawek.zzz.service.processor;
 
 import com.mawek.zzz.model.Loan;
-import com.mawek.zzz.service.LoanProcessorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,6 +14,7 @@ import java.util.List;
 
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.util.stream.Collectors.joining;
+import static org.apache.commons.lang3.Validate.notEmpty;
 import static org.apache.commons.lang3.Validate.notNull;
 
 /**
@@ -22,12 +22,13 @@ import static org.apache.commons.lang3.Validate.notNull;
  */
 @Component
 @ConditionalOnProperty(value = "loan.processor", havingValue = "file")
-public class FileLoggingLoanProcessor implements LoanProcessor {
+public final class FileLoggingLoanProcessor implements LoanProcessor {
 
     private final String outputFilePath;
 
     @Autowired
     public FileLoggingLoanProcessor(@Value("${loan.processor.file.path}") String outputFilePath) {
+        notEmpty(outputFilePath, "outputFilePath can't be empty");
         this.outputFilePath = outputFilePath;
 
         try {

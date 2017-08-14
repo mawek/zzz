@@ -385,6 +385,9 @@ public final class Loan {
         }
     }
 
+    /**
+     * Represent field that can be used for sorting on Rest API.
+     */
     public enum SortableField {
         DATE_PUBLISHED("datePublished");
 
@@ -403,6 +406,9 @@ public final class Loan {
         }
     }
 
+    /**
+     * Represent field that can be used for filtering on Rest API.
+     */
     public enum FilterableField {
         DATE_PUBLISHED("datePublished");
 
