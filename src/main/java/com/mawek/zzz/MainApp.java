@@ -2,6 +2,7 @@ package com.mawek.zzz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mawek.zzz.model.Loan;
+import com.mawek.zzz.service.LoanProcessor;
 import com.mawek.zzz.service.MarketplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,9 @@ public class MainApp {
     @Autowired
     private MarketplaceService marketplaceService;
 
+    @Autowired
+    private LoanProcessor newLoansProcessor;
+
     // datetime of last check of loans
     private ZonedDateTime fromDatePublished = ZonedDateTime.now();
 
@@ -33,9 +37,10 @@ public class MainApp {
     @Scheduled(fixedDelayString = "${scheduler.rate.ms}")
     public void printLoans() {
 
-        // TODO some reporter
         final List<Loan> loans = marketplaceService.getLoans(fromDatePublished);
-        loans.stream().forEach(loan -> System.out.println(loan.getId() + ", published:  " + loan.getDatePublished() + ", name: " + loan.getName()));
+
+        // maybe some more reactive - async publish/subscriber processor if the rate is too big
+        newLoansProcessor.processLoans(loans);
 
         if (loans.isEmpty()) {
             return;
