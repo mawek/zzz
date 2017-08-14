@@ -45,7 +45,7 @@ public class MarketplaceService {
 
 
         // TODO hostname configurable
-        final ZRequestBuilder requestBuilder = zrestTemplate.createGet("https://api.zonky.cz/loans/marketplace")
+        final ZRequestBuilder requestBuilder = zrestTemplate.createGet("/loans/marketplace")
                 .addSortField(SortableField.DATE_PUBLISHED.getDescOrder())
                 .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), "2017-07-20T23:59:59.000+02:00")
                 .setPageIndex(0);

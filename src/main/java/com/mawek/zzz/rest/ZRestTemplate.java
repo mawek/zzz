@@ -3,6 +3,7 @@ package com.mawek.zzz.rest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,12 +21,15 @@ import static org.apache.commons.lang3.Validate.notNull;
 public final class ZRestTemplate {
 
     private final RestTemplate restTemplate;
+    private final String zHostName;
 
     @Autowired
-    public ZRestTemplate(RestTemplate restTemplate) {
+    public ZRestTemplate(RestTemplate restTemplate, @Value("${rest.zHostName}") String zHostName) {
         notNull(restTemplate, "restTemplate can't be null");
+        notEmpty(zHostName, "zHostName can't be null");
 
         this.restTemplate = restTemplate;
+        this.zHostName = zHostName;
     }
 
     /**
@@ -37,7 +41,7 @@ public final class ZRestTemplate {
     public ZRequestBuilder createGet(String url) {
         notEmpty(url, "url can't be empty");
 
-        return new ZRequestBuilder(this, new HttpGet(url));
+        return new ZRequestBuilder(this, new HttpGet(zHostName + url));
     }
 
     /*
