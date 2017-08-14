@@ -1,37 +1,25 @@
 package com.mawek.zzz.service
 
+import com.mawek.zzz.BaseIT
 import com.mawek.zzz.JsonFileHelper
 import com.mawek.zzz.model.Loan
 import com.mawek.zzz.rest.ZRequestBuilder
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.web.client.RestTemplate
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class MarketplaceServiceIT {
-
-    @Autowired
-    private RestTemplate restTemplate
+class MarketplaceServiceIT extends BaseIT {
 
     @Autowired
     private MarketplaceService marketplaceService
-
-    private zonkyServer
-
-    @Before
-    void setUp() {
-        zonkyServer = MockRestServiceServer.bindTo(restTemplate).build()
-    }
 
     @Test
     void testGetLoans() {

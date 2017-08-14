@@ -1,34 +1,18 @@
 package com.mawek.zzz.rest
 
+import com.mawek.zzz.BaseIT
 import org.apache.http.client.methods.HttpGet
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.client.MockRestServiceServer
-import org.springframework.web.client.RestTemplate
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ZRestTemplateTest {
-
-    @Autowired
-    private RestTemplate restTemplate
-
-    @Autowired
-    private ZRestTemplate zRestTemplate
-
-    private zonkyServer
-
-    @Before
-    void setUp() {
-        zonkyServer = MockRestServiceServer.bindTo(restTemplate).build()
-    }
+class ZRestTemplateTest extends BaseIT {
 
     @Test
     void testGetLoans() {
