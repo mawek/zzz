@@ -31,8 +31,5 @@ class ZRestTemplateTest extends BaseIT {
         zRestTemplate.execute(request, Void.class)
 
         zonkyServer.verify()
-
     }
-
-
 }

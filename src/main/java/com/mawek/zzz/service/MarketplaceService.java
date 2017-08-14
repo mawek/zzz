@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -38,24 +39,25 @@ public class MarketplaceService {
      * Return all loans that datePublished field is newer than provided parameter.
      * Used for fetching 'new' loans in marketplace.
      *
-     * @param fromDatePublished lower boundary of datePublished field of returned loans
-     * @return list of loans
+     * @param fromDatePublished lower boundary of datePublished field of returned loans (can't be null)
+     * @return list of loans sorted by publish date (from the newest to the oldest)
      */
     public List<Loan> getLoans(ZonedDateTime fromDatePublished) {
+        notNull(fromDatePublished, "fromDatePublished can't be null");
 
         final ZRequestBuilder requestBuilder = zrestTemplate.createGet("/loans/marketplace")
                 .addSortField(SortableField.DATE_PUBLISHED.getDescOrder())
-                .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), "2017-07-20T23:59:59.000+02:00")
+                .addFilterField(FilterableField.DATE_PUBLISHED.getFieldFilter(FilterOperation.GT), fromDatePublished.format(ISO_OFFSET_DATE_TIME))
                 .setPageIndex(0);
 
         final List<Loan> loans = Lists.newLinkedList();
-        for (int i = 0; ; i++) {
+        for (int i = 0; ;) {
             final ZResponse<Loan[]> response = requestBuilder.execute(Loan[].class);
 
             loans.addAll(asList(response.getEntity()));
 
             if (loans.size() < response.getPagingTotal()) {
-                requestBuilder.setPageIndex(i);
+                requestBuilder.setPageIndex(++i);
             } else {
                 return loans;
             }

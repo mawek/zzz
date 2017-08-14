@@ -22,9 +22,9 @@ final class JsonFileHelper {
     static String getJsonAsString(final String fullPathOnClassPath) {
 
         try {
-            return FileUtils.readFileToString(ResourceUtils.getFile("classpath:" + fullPathOnClassPath));
+            return FileUtils.readFileToString(ResourceUtils.getFile("classpath:" + fullPathOnClassPath))
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e)
         }
     }
 }

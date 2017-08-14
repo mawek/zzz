@@ -1,14 +1,13 @@
 # Zonky app
-## Running the app
+
+Application for periodic checking of new loans.
+
+## Running the app via gradle (development mode)
 * gradle run
 
-## Running test
+## Running tests
 * gradle test
 
 ## Bundling the app
-* TODO
-
-## TODO
-* gradle dependency management ?
-* spring reactor ?
-* spring for scheduler and properties management (and dependency mgmt)
+* gradle build
+* java -jar build/libs/zzz-1.0-SNAPSHOT.jar
