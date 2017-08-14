@@ -1,5 +1,6 @@
 package com.mawek.zzz;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mawek.zzz.model.Loan;
 import com.mawek.zzz.service.MarketplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,11 @@ public class MainApp {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper().findAndRegisterModules();
     }
 
 }

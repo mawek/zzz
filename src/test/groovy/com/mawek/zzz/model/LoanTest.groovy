@@ -4,14 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mawek.zzz.JsonFileHelper
 import org.junit.Test
 
-class LoanTest {
+import java.time.ZonedDateTime
 
-    private ObjectMapper OBJECT_MAPPER = new ObjectMapper()
+class LoanTest {
 
     @Test
     void testLoanDeserialize() {
+
+        final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules()
+
         def loanJson = JsonFileHelper.getJsonAsString("json/loan.json")
-        Loan loan = OBJECT_MAPPER.readValue(loanJson, Loan.class)
+        Loan loan = mapper.readValue(loanJson, Loan.class)
 
         checkRequiredFields(loan)
         checkOptionalFields(loan)
@@ -35,9 +38,9 @@ class LoanTest {
                 .withRemainingInvestment(new BigDecimal("217000.00"))
                 .withInvestmentRate(new BigDecimal("0.07659574468085106"))
                 .withCovered(false)
-                .withDatePublished('2017-08-09T17:51:58.977+02:00')
+                .withDatePublished(ZonedDateTime.parse('2017-08-09T17:51:58.977+02:00'))
                 .withPublished(true)
-                .withDeadline('2017-08-11T17:42:55.073+02:00')
+                .withDeadline(ZonedDateTime.parse('2017-08-11T17:42:55.073+02:00'))
                 .withInvestmentsCount(33)
                 .withQuestionsCount(3)
                 .withRegion('6')
@@ -66,9 +69,9 @@ class LoanTest {
         assert loan.remainingInvestment == new BigDecimal("217000.00")
         assert loan.investmentRate == new BigDecimal("0.07659574468085106")
         assert !loan.covered
-        assert loan.datePublished == "2017-08-09T17:51:58.977+02:00"
+        assert loan.datePublished.isEqual(ZonedDateTime.parse("2017-08-09T17:51:58.977+02:00"))
         assert loan.published
-        assert loan.deadline == "2017-08-11T17:42:55.073+02:00"
+        assert loan.deadline.isEqual(ZonedDateTime.parse("2017-08-11T17:42:55.073+02:00"))
         assert loan.investmentsCount == 33
         assert loan.questionsCount == 3
         assert loan.region == "6"

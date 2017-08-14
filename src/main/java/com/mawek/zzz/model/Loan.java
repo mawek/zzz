@@ -9,6 +9,7 @@ import com.mawek.zzz.rest.FilterOperation;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.Validate.notEmpty;
@@ -34,9 +35,9 @@ public final class Loan {
     private final BigDecimal remainingInvestment;
     private final BigDecimal investmentRate;
     private final boolean covered;
-    private final String datePublished; // TODO date
+    private final ZonedDateTime datePublished;
     private final boolean published;
-    private final String deadline; // TODO date
+    private final ZonedDateTime deadline;
     private final int investmentsCount;
     private final int questionsCount;
     private final String region;
@@ -60,9 +61,9 @@ public final class Loan {
         this.remainingInvestment = notNull(builder.remainingInvestment, "remainingInvestment can't be null");
         this.investmentRate = notNull(builder.investmentRate, "investmentRate can't be null");
         this.covered = builder.covered;
-        this.datePublished = notEmpty(builder.datePublished, "datePublished can't be empty");
+        this.datePublished = notNull(builder.datePublished, "datePublished can't be empty");
         this.published = builder.published;
-        this.deadline = notEmpty(builder.deadline, "deadline can't be empty");
+        this.deadline = notNull(builder.deadline, "deadline can't be empty");
         this.investmentsCount = builder.investmentsCount;
         this.questionsCount = builder.questionsCount;
         this.region = notEmpty(builder.region, "region can't be empty");
@@ -117,7 +118,7 @@ public final class Loan {
         return covered;
     }
 
-    public String getDatePublished() {
+    public ZonedDateTime getDatePublished() {
         return datePublished;
     }
 
@@ -125,7 +126,7 @@ public final class Loan {
         return published;
     }
 
-    public String getDeadline() {
+    public ZonedDateTime getDeadline() {
         return deadline;
     }
 
@@ -255,9 +256,9 @@ public final class Loan {
         private BigDecimal remainingInvestment;
         private BigDecimal investmentRate;
         private boolean covered;
-        private String datePublished; // TODO date
+        private ZonedDateTime datePublished;
         private boolean published;
-        private String deadline; // TODO date
+        private ZonedDateTime deadline;
         private int investmentsCount;
         private int questionsCount;
         private String region;
@@ -329,7 +330,7 @@ public final class Loan {
             return this;
         }
 
-        public LoanBuilder withDatePublished(String datePublished) {
+        public LoanBuilder withDatePublished(ZonedDateTime datePublished) {
             this.datePublished = datePublished;
             return this;
         }
@@ -339,7 +340,7 @@ public final class Loan {
             return this;
         }
 
-        public LoanBuilder withDeadline(String deadline) {
+        public LoanBuilder withDeadline(ZonedDateTime deadline) {
             this.deadline = deadline;
             return this;
         }
