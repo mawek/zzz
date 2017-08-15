@@ -21,12 +21,11 @@ repositories {
 
 dependencies {
 
-    compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework:spring-web")
-    compile("org.springframework.boot:spring-boot-starter-test")
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework:spring-web')
 
     compile('org.apache.httpcomponents:httpclient')
-    compile("com.google.guava:guava:11.0.2")
+    compile('com.google.guava:guava:11.0.2')
     compile('commons-logging:commons-logging')
     compile('commons-io:commons-io:2.4')
     compile('org.apache.commons:commons-lang3:3.5')
@@ -37,6 +36,7 @@ dependencies {
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
 
+    testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.mockito:mockito-core')
     testCompile('junit:junit')
     testCompile('org.codehaus.groovy:groovy-all')
@@ -45,6 +45,6 @@ dependencies {
 test {
     testLogging {
         exceptionFormat 'full'
-        events "passed", "skipped", "failed"
+        events 'passed', 'skipped', 'failed'
     }
 }
