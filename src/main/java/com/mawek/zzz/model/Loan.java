@@ -173,11 +173,11 @@ public final class Loan {
                 Objects.equals(name, loan.name) &&
                 Objects.equals(purpose, loan.purpose) &&
                 Objects.equals(nickName, loan.nickName) &&
-                Objects.equals(interestRate, loan.interestRate) &&
+                interestRate.compareTo(loan.interestRate) == 0 &&
                 Objects.equals(rating, loan.rating) &&
-                Objects.equals(amount, loan.amount) &&
-                Objects.equals(remainingInvestment, loan.remainingInvestment) &&
-                Objects.equals(investmentRate, loan.investmentRate) &&
+                amount.compareTo(loan.amount) == 0 &&
+                remainingInvestment.compareTo(loan.remainingInvestment) == 0 &&
+                investmentRate.compareTo(loan.investmentRate) == 0 &&
                 Objects.equals(datePublished, loan.datePublished) &&
                 Objects.equals(deadline, loan.deadline) &&
                 Objects.equals(region, loan.region) &&

@@ -20,6 +20,17 @@ class LoanTest {
         checkOptionalFields(loan)
     }
 
+    @Test
+    void testLoanEqual() {
+
+        final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules()
+
+        Loan loan = mapper.readValue(JsonFileHelper.getJsonAsString("json/loan.json"), Loan.class)
+        Loan loan2 = mapper.readValue(JsonFileHelper.getJsonAsString("json/loan_scale.json"), Loan.class)
+
+        assert loan == loan2
+    }
+
     @Test(expected = NullPointerException.class)
     void testLoanBuilderMissingRequiredFields() {
         new Loan.LoanBuilder(15).withName('some name').build()

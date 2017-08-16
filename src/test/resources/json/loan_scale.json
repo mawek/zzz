@@ -1,0 +1,30 @@
+{
+  "id":113913,
+  "url":"https://app.zonky.cz/loan/113913",
+  "name":"Vyplacení manželky z bytu",
+  "story":"Po jednadvaceti letech jsme došli do stádia rozvodu a protože je byt ve kterém jsme společně bydleli v příjemné lokalitě a dostatečně prostorný, chtěl bych vyplatit manželku a zůstat zde společně se synem ve střídavé péči. \nDěkuji Všem Investorům, kteří tímto způsobem pomáhají a zároveň investují...",
+  "purpose":"7",
+  "photos":[
+    {
+      "name":"othe-default.cbec3a78.png",
+      "url":"/loans/113913/photos/12956"
+    }
+  ],
+  "userId":143957,
+  "nickName":"Martynez",
+  "termInMonths":84,
+  "interestRate":0.05990000,
+  "rating":"AAA",
+  "topped":null,
+  "amount":235000.00,
+  "remainingInvestment":217000.000,
+  "investmentRate":0.0765957446808510600,
+  "covered":false,
+  "datePublished":"2017-08-09T17:51:58.977+02:00",
+  "published":true,
+  "deadline":"2017-08-11T17:42:55.073+02:00",
+  "investmentsCount":33,
+  "questionsCount":3,
+  "region":"6",
+  "mainIncomeType":"EMPLOYMENT"
+}
